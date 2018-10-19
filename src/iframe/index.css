@@ -9,11 +9,18 @@ body {
 }
 .header {
   display: flex;
-  height: 5vh;
+  align-items: center;
+  height: 10vh;
+  padding: 0 15px;
+  border-bottom: 1px solid rgba(156, 172, 172, 0.2);
+}
+.header__members {
+  color: rgb(0, 145, 202);
+  text-decoration: none;
 }
 .container {
   position: relative;
-  height: 95vh;
+  height: 90vh;
 }
 .members {
   display: flex;
@@ -24,6 +31,8 @@ body {
   width: 100vw;
   height: 100%;
   background-color: white;
+  opacity: 0.9;
+  padding: 15px;
 }
 .members--hidden {
   display: none;
@@ -31,6 +40,9 @@ body {
 .member {
   display: flex;
   align-items: center;
+}
+.member:not(:first-child) {
+  margin-top: 15px;
 }
 .member__image {
   width: 32px;
@@ -62,11 +74,11 @@ body {
 .message__name {
   padding: 10px 0;
   display: flex;
-  flex-wrap: nowrap;
+  align-items: center;
 }
 .message__bubble {
-  padding: 20px;
-  border-radius: 3px;
+  padding: 15px;
+  border-radius: 15px;
 }
 .message--theirs .message__bubble {
   background: #6363bf;
@@ -88,6 +100,7 @@ input {
   padding: 0 30px;
   font-size: 16px;
   background: transparent;
+  outline: none;
 }
 button {
   border: none;
@@ -95,4 +108,9 @@ button {
   padding: 0 30px;
   font-size: 16px;
   cursor: pointer;
+}
+.avatar {
+  margin-right: 8px;
+  border: 1px solid #c7d1d8;
+  border-radius: 50%;
 }

@@ -84,7 +84,7 @@
   function updateMembersCount() {
     const count = document.querySelectorAll('.member').length;
     const countEl = document.querySelector('.header__members');
-    countEl.innerText = count + ' attendee' + (count > 1 ? 's' : '');
+    countEl.innerText = count + (count > 1 ? ' people' : ' person');
   }
 
   function insertMemberToDOM(id, name, image) {
