@@ -10,7 +10,12 @@
   }
 
  // TODO: Replace with your own channel ID
-  const drone = new ScaleDrone('yiS12Ts5RdNhebyM');
+  const drone = new ScaleDrone('yiS12Ts5RdNhebyM', {
+    data: {
+      name,
+      image,
+    }
+  });
   // Scaledrone room name needs to be prefixed with 'observable-'
   const roomName = 'observable-' + course;
   // Scaledrone room used for signaling
@@ -39,13 +44,21 @@
     room.on('member_join', member => {
       // notifiy member joining
       console.log('member_join', member);
-      insertMessageToDOM({ content: 'Member ' + member.id + ' has joined' });
+      insertMessageToDOM({
+        name: member.clientData.name,
+        content: 'has joined',
+        image: member.clientData.image
+      });
     });
 
     room.on('member_leave', member => {
       // notify member leaving
       console.log('member_leave', member);
-      insertMessageToDOM({ content: 'Member ' + member.id + ' has left' });
+      insertMessageToDOM({
+        name: member.clientData.name,
+        content: 'has left',
+        image: member.clientData.image
+      });
     });
 
     room.on('data', (data, member) => {
@@ -100,7 +113,7 @@
     const data = {
       name,
       content: value,
-      emoji: "emoji",
+      image,
     };
 
     sendMessage(JSON.stringify(data));
