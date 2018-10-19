@@ -47,6 +47,7 @@
     room.on('member_join', member => {
       // notifiy member joining
       console.log('member_join', member);
+      insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
       insertSystemMessageToDOM({
         name: member.clientData.name,
         content: 'has joined',
@@ -56,6 +57,7 @@
     room.on('member_leave', member => {
       // notify member leaving
       console.log('member_leave', member);
+      removeMemberFromDOM(member.id);
       insertSystemMessageToDOM({
         name: member.clientData.name,
         content: 'has left',
