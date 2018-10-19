@@ -31,7 +31,7 @@ body {
   width: 100vw;
   height: 100%;
   background-color: white;
-  opacity: 0.9;
+  opacity: 0.95;
   padding: 15px;
 }
 .members--hidden {
@@ -72,6 +72,7 @@ body {
   overflow: auto;
   text-align: center;
   opacity: 0.5;
+  margin-top: 5px;
 }
 .message--mine {
   align-items: flex-end;
