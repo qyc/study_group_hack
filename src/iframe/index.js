@@ -84,8 +84,18 @@
   function insertMessageToDOM(options, isFromMe) {
     const template = document.querySelector('template[data-template="message"]');
     const nameEl = template.content.querySelector('.message__name');
-    if (options.emoji || options.name) {
-      nameEl.innerText = options.emoji + ' ' + options.name;
+    if (options.image) {
+      var imageElem = document.createElement("img");
+      imageElem.setAttribute("src", options.image);
+      imageElem.setAttribute("height", "32");
+      imageElem.setAttribute("width", "32");
+      imageElem.setAttribute("alt", options.name);
+      nameEl.appendChild(imageElem);
+    }
+    if (options.name) {
+      var nameElem = document.createElement("span");
+      nameElem.innerHTML = options.name;
+      nameEl.appendChild(nameElem);
     }
     template.content.querySelector('.message__bubble').innerText = options.content;
     const clone = document.importNode(template.content, true);
