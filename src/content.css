@@ -2,7 +2,7 @@ iframe.hackday {
   position: absolute;
   top: 0;
   left: 0;
-  width: 300px;
-  height: 500px;
+  width: 400px;
+  height: 600px;
   z-index: 10000;
 }

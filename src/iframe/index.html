@@ -2,13 +2,28 @@
 <html>
 
 <head>
+  <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
   <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-  <main>
+  <div class="content">
+    <div class="messages">
 
-  </main>
+    </div>
+    <form class="footer">
+      <input type="text" placeholder="Your message..">
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <template data-template="message">
+    <div class="message">
+      <div class="message__name"></div>
+      <div class="message__bubble"></div>
+    </div>
+  </template>
+
   <script src="index.js"></script>
 </body>
 
