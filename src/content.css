@@ -1,8 +1,11 @@
+main {
+  position: relative;
+}
 iframe.hackday {
   position: absolute;
   top: 0;
-  left: 0;
-  width: 400px;
-  height: 600px;
+  right: 0;
+  width: 30%;
+  height: 100%;
   z-index: 10000;
 }

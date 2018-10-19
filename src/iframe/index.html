@@ -7,15 +7,31 @@
 </head>
 
 <body>
-  <div class="content">
-    <div class="messages">
+  <div class="header">
+    <div class="header__video"></div>
+    <a class="header__members" href="#"></a>
+  </div>
+  <div class="container">
+    <div class="members members--hidden">
 
     </div>
-    <form class="footer">
-      <input type="text" placeholder="Your message..">
-      <button type="submit">Send</button>
-    </form>
+    <div class="content">
+      <div class="messages">
+
+      </div>
+      <form class="footer">
+        <input type="text" placeholder="Your message..">
+        <button type="submit">Send</button>
+      </form>
+    </div>
   </div>
+
+  <template data-template="member">
+    <div class="member">
+      <img class="member__image"></img>
+      <div class="member__name"></div>
+    </div>
+  </template>
 
   <template data-template="message">
     <div class="message">

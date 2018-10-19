@@ -39,26 +39,21 @@
     room.on('members', members => {
       // Create list of users
       console.log('members', members);
+      members.forEach(member => {
+        insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
+      });
     });
 
     room.on('member_join', member => {
       // notifiy member joining
       console.log('member_join', member);
-      insertMessageToDOM({
-        name: member.clientData.name,
-        content: 'has joined',
-        image: member.clientData.image
-      });
+      insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
     });
 
     room.on('member_leave', member => {
       // notify member leaving
       console.log('member_leave', member);
-      insertMessageToDOM({
-        name: member.clientData.name,
-        content: 'has left',
-        image: member.clientData.image
-      });
+      removeMemberFromDOM(member.id);
     });
 
     room.on('data', (data, member) => {
@@ -74,11 +69,48 @@
     });
   });
 
+  function toggleMembers() {
+    const membersEl = document.querySelector(".members");
+    membersEl.classList.toggle("members--hidden");
+  }
+
   function sendMessage(message) {
     drone.publish({
       room: roomName,
       message
     });
+  }
+
+  function updateMembersCount() {
+    const count = document.querySelectorAll('.member').length;
+    const countEl = document.querySelector('.header__members');
+    countEl.innerText = count + ' attendee' + (count > 1 ? 's' : '');
+  }
+
+  function insertMemberToDOM(id, name, image) {
+    const template = document.querySelector('template[data-template="member"]');
+
+    const memberEl = template.content.querySelector('.member');
+    memberEl.dataset.id = id;
+
+    const imageEl = template.content.querySelector('.member__image');
+    imageEl.src = image;
+
+    const nameEl = template.content.querySelector('.member__name');
+    nameEl.innerText = name;
+
+    const clone = document.importNode(template.content, true);
+    const membersEl = document.querySelector('.members');
+    membersEl.appendChild(clone);
+    updateMembersCount();
+  }
+
+  function removeMemberFromDOM(id) {
+    const memberEl = document.querySelector('.members .member[data-id="' + id + '"]');
+    if (memberEl) {
+      memberEl.remove();
+    }
+    updateMembersCount();
   }
 
   function insertMessageToDOM(options, isFromMe) {
@@ -110,6 +142,9 @@
     // Scroll to bottom
     messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
   }
+
+  const membersToggle = document.querySelector('.header__members');
+  membersToggle.addEventListener('click', toggleMembers);
 
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => {

@@ -27,4 +27,4 @@ const queryString = Object.entries(data).map(([k, v]) => {
 const iframe = document.createElement("iframe");
 iframe.classList.add("hackday");
 iframe.src = chrome.runtime.getURL("iframe/index.html?" + queryString);
-document.body.appendChild(iframe);
+document.body.querySelector("main").appendChild(iframe);
