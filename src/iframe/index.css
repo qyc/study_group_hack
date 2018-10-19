@@ -35,6 +35,8 @@ body {
 }
 .message__name {
   padding: 10px 0;
+  display: flex;
+  flex-wrap: nowrap;
 }
 .message__bubble {
   padding: 20px;
