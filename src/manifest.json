@@ -1,0 +1,22 @@
+{
+  "name": "Learning Hackday: Study Group",
+  "version": "1.0",
+  "description": "Learning Hackday: Study Group",
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.linkedin.com/learning/*"
+      ],
+      "css": [
+        "content.css"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    "iframe/*"
+  ],
+  "manifest_version": 2
+}
