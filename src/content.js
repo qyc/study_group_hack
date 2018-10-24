@@ -42,6 +42,11 @@ window.onmessage = function(e) {
     case "start":
       const playBtn = document.querySelector(".video-player__toolbar-menu button.ssplayer-play-button");
       playBtn.click();
+      const durationEl = document.querySelector(".ssplayer-time-display-duration");
+      if (durationEl) {
+        const duration = durationEl.textContent.trim();
+        iframe.contentWindow.postMessage({ type: "duration", duration }, "*");
+      }
       break;
     case "complete":
       const pauseBtn = document.querySelector(".video-player__toolbar-menu button.ssplayer-pause-button");

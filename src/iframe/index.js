@@ -6,10 +6,20 @@ getRoom().then(({ clientId, room, publish }) => {
   const image = params.get("image");
   const course = params.get("course");
   const video = params.get("video");
+  let duration = 10;
 
   if (!course) {
     return;
   }
+
+  window.onmessage = function(e) {
+    switch (e.data.type) {
+      case "duration":
+        const [minutes, seconds] = e.data.duration.split(":").map(o => parseInt(o));
+        duration = minutes * 60 + seconds;
+        break;
+    }
+  };
 
   room.on('members', () => {
     insertSystemMessageToDOM({
@@ -54,8 +64,11 @@ getRoom().then(({ clientId, room, publish }) => {
       case 'discuss':
         // data sent by member
         console.log('data', data, member);
+        const progressInSeconds = data.reaction.progress * duration / 100;
+        const minutes = Math.floor(progressInSeconds / 60);
+        const seconds = Math.floor(progressInSeconds % 60);
         insertSystemMessageToDOM({
-          content: `Let's discuss ${data.reaction.emoji} @ ${data.reaction.progress}`
+          content: `Let's discuss ${data.reaction.emoji} @ ${minutes}:${seconds}`
         });
         break;
     }
