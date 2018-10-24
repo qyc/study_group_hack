@@ -11,6 +11,13 @@ getRoom().then(({ clientId, room, publish }) => {
     return;
   }
 
+  room.on('members', () => {
+    insertSystemMessageToDOM({
+      name,
+      content: 'has joined'
+    });
+  });
+
   room.on('member_join', member => {
     // notifiy member joining
     console.log('member_join', member);
