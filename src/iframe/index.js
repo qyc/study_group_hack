@@ -68,7 +68,7 @@ getRoom().then(({ clientId, room, publish }) => {
         const minutes = Math.floor(progressInSeconds / 60);
         const seconds = Math.floor(progressInSeconds % 60);
         insertSystemMessageToDOM({
-          content: `Let's discuss ${data.reaction.emoji} @ ${minutes}:${seconds}`
+          content: `Let's discuss ${data.reaction.emoji} @ ${minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
         });
         break;
     }

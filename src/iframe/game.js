@@ -49,7 +49,6 @@ getRoom().then(({ clientId, room, publish }) => {
     },
     start() {
       publish({ type: "start" });
-      notify("start");
     },
     react(emoji, progress) {
       publish({ type: "react", emoji, progress });
@@ -139,6 +138,7 @@ getRoom().then(({ clientId, room, publish }) => {
         memberById(member.id).ready = true;
         break;
       case "start":
+        notify("start");
         data.state = STATE.IN_SESSION;
         progressHandler.start();
         break;
