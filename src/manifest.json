@@ -18,6 +18,6 @@
   "web_accessible_resources": [
     "iframe/*"
   ],
-  "content_security_policy": "script-src 'self' 'unsafe-inline' https://cdn.scaledrone.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.scaledrone.com https://cdn.jsdelivr.net; object-src 'self'",
   "manifest_version": 2
 }

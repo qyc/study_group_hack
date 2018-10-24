@@ -11,20 +11,9 @@ getRoom().then(({ clientId, room, publish }) => {
     return;
   }
 
-  // We're connected to the room and received an array of 'members'
-  // connected to the room (including us).
-  room.on('members', members => {
-    // Create list of users
-    console.log('members', members);
-    members.forEach(member => {
-      insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
-    });
-  });
-
   room.on('member_join', member => {
     // notifiy member joining
     console.log('member_join', member);
-    insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
     insertSystemMessageToDOM({
       name: member.clientData.name,
       content: 'has joined',
@@ -34,7 +23,6 @@ getRoom().then(({ clientId, room, publish }) => {
   room.on('member_leave', member => {
     // notify member leaving
     console.log('member_leave', member);
-    removeMemberFromDOM(member.id);
     insertSystemMessageToDOM({
       name: member.clientData.name,
       content: 'has left',
@@ -52,47 +40,6 @@ getRoom().then(({ clientId, room, publish }) => {
 
     insertMessageToDOM(JSON.parse(data));
   });
-
-  function toggleMembers() {
-    const membersEl = document.querySelector(".members");
-    membersEl.classList.toggle("members--hidden");
-  }
-
-  function sendMessage(message) {
-    publish(message);
-  }
-
-  function updateMembersCount() {
-    const count = document.querySelectorAll('.member').length;
-    const countEl = document.querySelector('.header__members');
-    countEl.innerText = count + (count > 1 ? ' people' : ' person');
-  }
-
-  function insertMemberToDOM(id, name, image) {
-    const template = document.querySelector('template[data-template="member"]');
-
-    const memberEl = template.content.querySelector('.member');
-    memberEl.dataset.id = id;
-
-    const imageEl = template.content.querySelector('.member__image');
-    imageEl.src = image;
-
-    const nameEl = template.content.querySelector('.member__name');
-    nameEl.innerText = name;
-
-    const clone = document.importNode(template.content, true);
-    const membersEl = document.querySelector('.members');
-    membersEl.appendChild(clone);
-    updateMembersCount();
-  }
-
-  function removeMemberFromDOM(id) {
-    const memberEl = document.querySelector('.members .member[data-id="' + id + '"]');
-    if (memberEl) {
-      memberEl.remove();
-    }
-    updateMembersCount();
-  }
 
   function insertMessageToDOM(options, isFromMe) {
     const template = document.querySelector('template[data-template="message"]');
@@ -137,9 +84,6 @@ getRoom().then(({ clientId, room, publish }) => {
     messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
   }
 
-  const membersToggle = document.querySelector('.header__members');
-  membersToggle.addEventListener('click', toggleMembers);
-
   const form = document.querySelector('form');
   form.addEventListener('submit', (e) => {
     e.preventDefault();
@@ -153,7 +97,7 @@ getRoom().then(({ clientId, room, publish }) => {
       image,
     };
 
-    sendMessage(JSON.stringify(data));
+    publish(JSON.stringify(data));
 
     insertMessageToDOM(data, true);
     return false;
