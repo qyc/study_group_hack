@@ -16,7 +16,7 @@ const roomName = 'observable-' + course;
 const publish = message => {
   drone.publish({
     room: roomName,
-    message
+    message: JSON.stringify(message)
   });
 }
 

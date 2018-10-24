@@ -10,39 +10,44 @@ body {
 .header {
   display: flex;
   align-items: center;
-  height: 10vh;
-  padding: 0 15px;
+  padding: 15px;
   border-bottom: 1px solid rgba(156, 172, 172, 0.2);
+}
+.header > div {
+  width: 100%;
 }
 .header__members {
   color: rgb(0, 145, 202);
   text-decoration: none;
 }
+.actions {
+  display: flex;
+  justify-content: space-around;
+}
 .container {
   position: relative;
-  height: 90vh;
+  flex: 1;
 }
 .members {
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100%;
-  background-color: white;
-  opacity: 0.95;
-  padding: 15px;
-}
-.members--hidden {
-  display: none;
+  flex-wrap: wrap;
 }
 .member {
   display: flex;
+  flex-direction: column;
   align-items: center;
 }
 .member:not(:first-child) {
-  margin-top: 15px;
+  margin-left: 8px;
+}
+.member .label {
+  width: 30px;
+  height: 12px;
+  background-color: blue;
+  color: white;
+  border-radius: 3px;
+  font-size: 9px;
+  text-align: center;
 }
 .member__image {
   width: 32px;
@@ -98,7 +103,7 @@ body {
   display: flex;
   flex-shrink: 0;
 }
-input {
+.footer input {
   height: 76px;
   border: none;
   flex-grow: 1;
@@ -107,7 +112,7 @@ input {
   background: transparent;
   outline: none;
 }
-button {
+.footer button {
   border: none;
   background: transparent;
   padding: 0 30px;
@@ -115,7 +120,9 @@ button {
   cursor: pointer;
 }
 .avatar {
-  margin-right: 8px;
   border: 1px solid #c7d1d8;
   border-radius: 50%;
+}
+.message .avatar {
+  margin-right: 8px;
 }

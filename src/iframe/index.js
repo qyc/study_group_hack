@@ -30,6 +30,10 @@ getRoom().then(({ clientId, room, publish }) => {
   });
 
   room.on('data', (data, member) => {
+    if (data.type !== 'message') {
+      return;
+    }
+
     // data sent by member
     console.log('data', data, member);
 
@@ -92,12 +96,13 @@ getRoom().then(({ clientId, room, publish }) => {
     input.value = '';
 
     const data = {
+      type: 'message',
       name,
       content: value,
       image,
     };
 
-    publish(JSON.stringify(data));
+    publish(data);
 
     insertMessageToDOM(data, true);
     return false;

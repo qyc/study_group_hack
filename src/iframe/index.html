@@ -9,7 +9,25 @@
 
 <body>
   <div class="header">
-    {{ membersCount }}
+    <div v-if="state === 'WAITING' || state === 'READY'">
+      <div class="members">
+        <div class="member" v-for="member in members">
+          <img class="member__image avatar" :src="member.image"></img>
+          <span class="label">{{ member.ready ? 'ready' : ' ' }}</span>
+        </div>
+      </div>
+      <div class="actions">
+        <div v-if="amReady">I'm Ready!</div>
+        <button v-else @click="ready">I'm Ready!</button>
+        <button @click="start">Start</button>
+      </div>
+    </div>
+    <div v-if="state === 'IN_SESSION'">
+
+    </div>
+    <div v-if="state === 'COMPLETE'">
+
+    </div>
   </div>
   <div class="container">
     <div class="content">
