@@ -30,19 +30,28 @@ getRoom().then(({ clientId, room, publish }) => {
   });
 
   room.on('data', (data, member) => {
-    if (data.type !== 'message') {
-      return;
+    data = JSON.parse(data);
+    switch (data.type) {
+      case 'message':
+        // data sent by member
+        console.log('data', data, member);
+
+        // Message was sent by us
+        if (member.id === clientId) {
+          return;
+        }
+
+        insertMessageToDOM(data);
+        break;
+
+      case 'discuss':
+        // data sent by member
+        console.log('data', data, member);
+        insertSystemMessageToDOM({
+          content: `Let's discuss ${data.reaction.emoji} @ ${data.reaction.progress}`
+        });
+        break;
     }
-
-    // data sent by member
-    console.log('data', data, member);
-
-    // Message was sent by us
-    if (member.id === clientId) {
-      return;
-    }
-
-    insertMessageToDOM(JSON.parse(data));
   });
 
   function insertMessageToDOM(options, isFromMe) {
@@ -77,9 +86,12 @@ getRoom().then(({ clientId, room, publish }) => {
   function insertSystemMessageToDOM(options) {
     const template = document.querySelector('template[data-template="system--message"]');
     const systemMessageEl = template.content.querySelector('.system--message');
+    let text = '';
     if (options.name) {
-      systemMessageEl.innerText = options.name + ' ' + options.content;
+      text = options.name + ' ';
     }
+    text += options.content;
+    systemMessageEl.innerText = text;
     const clone = document.importNode(template.content, true);
     const messagesEl = document.querySelector('.messages');
     messagesEl.appendChild(clone);

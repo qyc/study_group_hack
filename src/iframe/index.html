@@ -23,7 +23,18 @@
       </div>
     </div>
     <div v-if="state === 'IN_SESSION'">
-
+      <div class="reactions">
+        <div v-for="reaction in reactions" class="reaction" :style="{ left: reaction.progress + '%' }" @click="discuss(reaction)">
+          <img class="reaction__image avatar" :src="memberImage(reaction.id)">
+          <span>&nbsp;{{ reaction.emoji }}</span>
+        </div>
+      </div>
+      <div class="progress">
+        <div class="progress__filler" :style="{ width: progress + '%' }"></div>
+      </div>
+      <div class="actions">
+        <button v-for="emoji in emojis" @click="react(emoji)">{{ emoji }}</button>
+      </div>
     </div>
     <div v-if="state === 'COMPLETE'">
 

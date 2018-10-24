@@ -11,16 +11,43 @@ getRoom().then(({ clientId, room, publish }) => {
   const data = {
     state: STATE.WAITING,
     members: [],
+    emojis: ["👍", "👎", "❤️", "❓"],
+    progress: 0,
+    reactions: []
   };
 
   const memberById = id => {
     return data.members.find(m => m.id === id);
   }
 
+  const progressHandler = (function () {
+    let interval;
+    return {
+      start() {
+        if (interval) {
+          clearInterval(interval);
+        }
+        data.progress = 0;
+        interval = setInterval(() => {
+          data.progress += 1;
+          if (data.progress > 100) {
+            clearInterval(interval);
+          }
+        }, 100);
+      }
+    }
+  })();
+
   const publisher = {
     ready() {
       publish({ type: "ready" });
     },
+    react(emoji, progress) {
+      publish({ type: "react", emoji, progress });
+    },
+    discuss(reaction) {
+      publish({ type: "discuss", reaction });
+    }
   };
 
   const createVue = () => {
@@ -35,12 +62,21 @@ getRoom().then(({ clientId, room, publish }) => {
         }
       },
       methods: {
+        memberImage(id) {
+          return memberById(id).image;
+        },
         ready() {
-          this.self.ready = true;
           publisher.ready();
         },
         start() {
           this.state = STATE.IN_SESSION;
+          progressHandler.start();
+        },
+        react(emoji) {
+          publisher.react(emoji, this.progress);
+        },
+        discuss(reaction) {
+          publisher.discuss(reaction);
         }
       }
     }).$mount(".header");
@@ -84,6 +120,13 @@ getRoom().then(({ clientId, room, publish }) => {
     switch (d.type) {
       case "ready":
         memberById(member.id).ready = true;
+        break;
+      case "react":
+        data.reactions.push({
+          id: member.id,
+          emoji: d.emoji,
+          progress: d.progress
+        });
         break;
     }
   });
