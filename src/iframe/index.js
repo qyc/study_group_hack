@@ -1,4 +1,6 @@
-(function () {
+import { getRoom } from "./drone.js";
+
+getRoom().then(({ clientId, room, publish }) => {
   const params = new URLSearchParams(location.search);
   const name = params.get("name");
   const image = params.get("image");
@@ -9,72 +11,46 @@
     return;
   }
 
- // TODO: Replace with your own channel ID
-  const drone = new ScaleDrone('yiS12Ts5RdNhebyM', {
-    data: {
-      name,
-      image,
-    }
-  });
-  // Scaledrone room name needs to be prefixed with 'observable-'
-  const roomName = 'observable-' + course;
-  // Scaledrone room used for signaling
-  let room;
-
-  // Wait for Scaledrone signalling server to connect
-  drone.on('open', error => {
-    if (error) {
-      return console.error(error);
-    }
-    room = drone.subscribe(roomName);
-    room.on('open', error => {
-      if (error) {
-        return console.error(error);
-      }
-      console.log('Connected to server');
-    });
-
-    // We're connected to the room and received an array of 'members'
-    // connected to the room (including us).
-    room.on('members', members => {
-      // Create list of users
-      console.log('members', members);
-      members.forEach(member => {
-        insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
-      });
-    });
-
-    room.on('member_join', member => {
-      // notifiy member joining
-      console.log('member_join', member);
+  // We're connected to the room and received an array of 'members'
+  // connected to the room (including us).
+  room.on('members', members => {
+    // Create list of users
+    console.log('members', members);
+    members.forEach(member => {
       insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
-      insertSystemMessageToDOM({
-        name: member.clientData.name,
-        content: 'has joined',
-      });
     });
+  });
 
-    room.on('member_leave', member => {
-      // notify member leaving
-      console.log('member_leave', member);
-      removeMemberFromDOM(member.id);
-      insertSystemMessageToDOM({
-        name: member.clientData.name,
-        content: 'has left',
-      });
+  room.on('member_join', member => {
+    // notifiy member joining
+    console.log('member_join', member);
+    insertMemberToDOM(member.id, member.clientData.name, member.clientData.image);
+    insertSystemMessageToDOM({
+      name: member.clientData.name,
+      content: 'has joined',
     });
+  });
 
-    room.on('data', (data, member) => {
-      // data sent by member
-      console.log('data', data, member);
-
-      // Message was sent by us
-      if (member.id === drone.clientId) {
-        return;
-      }
-
-      insertMessageToDOM(JSON.parse(data));
+  room.on('member_leave', member => {
+    // notify member leaving
+    console.log('member_leave', member);
+    removeMemberFromDOM(member.id);
+    insertSystemMessageToDOM({
+      name: member.clientData.name,
+      content: 'has left',
     });
+  });
+
+  room.on('data', (data, member) => {
+    // data sent by member
+    console.log('data', data, member);
+
+    // Message was sent by us
+    if (member.id === clientId) {
+      return;
+    }
+
+    insertMessageToDOM(JSON.parse(data));
   });
 
   function toggleMembers() {
@@ -83,10 +59,7 @@
   }
 
   function sendMessage(message) {
-    drone.publish({
-      room: roomName,
-      message
-    });
+    publish(message);
   }
 
   function updateMembersCount() {
@@ -185,4 +158,4 @@
     insertMessageToDOM(data, true);
     return false;
   });
-})();
+});
