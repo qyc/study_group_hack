@@ -4,6 +4,7 @@
 <head>
   <script type='text/javascript' src='https://cdn.scaledrone.com/scaledrone.min.js'></script>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>
+  <link rel="stylesheet" href="https://triton.www.linkedin.com/assets/triton-fe-c88f875a80e9ad74dd3caa4dee2fe668.css">
   <link rel="stylesheet" href="index.css">
 </head>
 
@@ -13,27 +14,29 @@
       <div class="members">
         <div class="member" v-for="member in members">
           <img class="member__image avatar" :src="member.image"></img>
-          <span class="label">{{ member.ready ? 'ready' : ' ' }}</span>
+          <span class="label" :class="{ 'label--ready': amReady }">{{ member.ready ? 'ready' : ' ' }}</span>
         </div>
       </div>
       <div class="actions">
-        <div v-if="amReady">I'm Ready!</div>
-        <button v-else @click="ready">I'm Ready!</button>
-        <button @click="start">Start</button>
+        <button v-if="!amReady" @click="ready" class="artdeco-button artdeco-button--2 artdeco-button--secondary">I'm Ready!</button>
+        <button v-if="isEveryoneReady" @click="start" class="artdeco-button artdeco-button--2 artdeco-button--primary">Start</button>
       </div>
     </div>
     <div v-if="state === 'IN_SESSION'">
       <div class="reactions">
         <div v-for="reaction in reactions" class="reaction" :style="{ left: reaction.progress + '%' }" @click="discuss(reaction)">
           <img class="reaction__image avatar" :src="memberImage(reaction.id)">
-          <span>&nbsp;{{ reaction.emoji }}</span>
+          <span>{{ reaction.emoji }}</span>
         </div>
       </div>
       <div class="progress">
         <div class="progress__filler" :style="{ width: progress + '%' }"></div>
       </div>
       <div class="actions">
-        <button v-for="emoji in emojis" @click="react(emoji)">{{ emoji }}</button>
+        <button v-if="progress >= 100" class="artdeco-button artdeco-button--2 artdeco-button--primary" @click="complete">Complete</button>
+        <template v-else>
+            <button v-for="emoji in emojis" @click="react(emoji)" class="artdeco-button artdeco-button--2 artdeco-button--secondary actions__emoji">{{ emoji }}</button>
+        </template>
       </div>
     </div>
     <div v-if="state === 'COMPLETE'">
@@ -69,7 +72,7 @@
   </template>
 
   <script src="index.js" type="module"></script>
-  <script src="game/index.js" type="module"></script>
+  <script src="game.js" type="module"></script>
 </body>
 
 </html>

@@ -23,10 +23,17 @@ body {
 .actions {
   display: flex;
   justify-content: space-around;
+  margin-top: 8px;
+}
+.actions__emoji {
+  padding: 8px;
+  border-radius: 50%;
+  outline: none !important;
 }
 .container {
   position: relative;
   flex: 1;
+  padding: 0;
 }
 .members {
   display: flex;
@@ -43,11 +50,15 @@ body {
 .member .label {
   width: 30px;
   height: 12px;
-  background-color: blue;
-  color: white;
-  border-radius: 3px;
+  line-height: 12px;
+  color: rgba(255,255,255,.85);
+  border-radius: 2px;
   font-size: 9px;
   text-align: center;
+  border: 1px dotted #0073b1;
+}
+.member .label--ready {
+  background-color: #0073b1;
 }
 .member__image {
   width: 32px;
@@ -57,7 +68,7 @@ body {
   background-color: lightgray;
 }
 .progress__filler {
-  background-color: blue;
+  background-color: #0073b1;
   height: 10px;
 }
 .reactions {

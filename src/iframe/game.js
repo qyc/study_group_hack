@@ -1,4 +1,4 @@
-import { getRoom } from "../drone.js";
+import { getRoom } from "./drone.js";
 
 const STATE = {
   WAITING: "WAITING",
@@ -47,6 +47,9 @@ getRoom().then(({ clientId, room, publish }) => {
     },
     discuss(reaction) {
       publish({ type: "discuss", reaction });
+    },
+    complete() {
+      publish({ type: "complete" });
     }
   };
 
@@ -59,6 +62,9 @@ getRoom().then(({ clientId, room, publish }) => {
         },
         amReady() {
           return this.self.ready;
+        },
+        isEveryoneReady() {
+          return this.members.every(m => m.ready);
         }
       },
       methods: {
@@ -77,6 +83,9 @@ getRoom().then(({ clientId, room, publish }) => {
         },
         discuss(reaction) {
           publisher.discuss(reaction);
+        },
+        complete() {
+          publisher.complete();
         }
       }
     }).$mount(".header");
@@ -128,6 +137,12 @@ getRoom().then(({ clientId, room, publish }) => {
           progress: d.progress
         });
         break;
+      case "complete":
+        data.state = STATE.WAITING;
+        data.members.forEach(m => m.ready = false);
+        data.progress = 0;
+        data.reactions = [];
+        break;
     }
   });
-});  
+});
