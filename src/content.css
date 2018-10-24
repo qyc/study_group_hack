@@ -8,6 +8,9 @@ artdeco-tabpanel.course-body__info-panel--notes {
 .course-notes {
   display: none;
 }
+.course-body__feedback {
+  display: none !important;
+}
 iframe.hackday {
   width: 100%;
   height: 100%;

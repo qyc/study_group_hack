@@ -42,6 +42,9 @@ getRoom().then(({ clientId, room, publish }) => {
     ready() {
       publish({ type: "ready" });
     },
+    start() {
+      publish({ type: "start" });
+    },
     react(emoji, progress) {
       publish({ type: "react", emoji, progress });
     },
@@ -75,8 +78,7 @@ getRoom().then(({ clientId, room, publish }) => {
           publisher.ready();
         },
         start() {
-          this.state = STATE.IN_SESSION;
-          progressHandler.start();
+          publisher.start();
         },
         react(emoji) {
           publisher.react(emoji, this.progress);
@@ -130,6 +132,9 @@ getRoom().then(({ clientId, room, publish }) => {
       case "ready":
         memberById(member.id).ready = true;
         break;
+      case "start":
+        data.state = STATE.IN_SESSION;
+        progressHandler.start();
       case "react":
         data.reactions.push({
           id: member.id,
