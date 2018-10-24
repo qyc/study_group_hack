@@ -20,6 +20,10 @@ getRoom().then(({ clientId, room, publish }) => {
     return data.members.find(m => m.id === id);
   }
 
+  const notify = message => {
+    parent.postMessage(message, "*");
+  };
+
   const progressHandler = (function () {
     let interval;
     return {
@@ -32,6 +36,7 @@ getRoom().then(({ clientId, room, publish }) => {
           data.progress += 1;
           if (data.progress > 100) {
             clearInterval(interval);
+            notify("complete");
           }
         }, 100);
       }
@@ -44,6 +49,7 @@ getRoom().then(({ clientId, room, publish }) => {
     },
     start() {
       publish({ type: "start" });
+      notify("start");
     },
     react(emoji, progress) {
       publish({ type: "react", emoji, progress });
@@ -135,6 +141,7 @@ getRoom().then(({ clientId, room, publish }) => {
       case "start":
         data.state = STATE.IN_SESSION;
         progressHandler.start();
+        break;
       case "react":
         data.reactions.push({
           id: member.id,

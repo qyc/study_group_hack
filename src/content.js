@@ -35,3 +35,17 @@ const iframe = document.createElement("iframe");
 iframe.classList.add("hackday");
 iframe.src = chrome.runtime.getURL("iframe/index.html?" + queryString);
 tabPanel.appendChild(iframe);
+
+// Set listeners
+window.onmessage = function(e) {
+  switch (e.data) {
+    case "start":
+      const playBtn = document.querySelector(".video-player__toolbar-menu button.ssplayer-play-button");
+      playBtn.click();
+      break;
+    case "complete":
+      const pauseBtn = document.querySelector(".video-player__toolbar-menu button.ssplayer-pause-button");
+      pauseBtn.click();
+      break;
+  }
+};
