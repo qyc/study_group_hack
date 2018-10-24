@@ -23,8 +23,15 @@ const queryString = Object.entries(data).map(([k, v]) => {
   return k + "=" + encodeURIComponent(v);
 }).join("&");
 
+// Hijack "Notes" tab
+const tab = document.querySelector("artdeco-tab.course-body__info-tab-name-notes");
+tab.innerText = "Study Group";
+// Move "Study Group" tab to be the second
+const firstTab = document.querySelector("artdeco-tabs.course-body__info-tabs artdeco-tab:nth-of-type(1)");
+firstTab.parentNode.insertBefore(tab, firstTab.nextSibling);
 // Inject iframe
+const tabPanel = document.querySelector("artdeco-tabpanel div.learning_course_notes");
 const iframe = document.createElement("iframe");
 iframe.classList.add("hackday");
 iframe.src = chrome.runtime.getURL("iframe/index.html?" + queryString);
-document.body.querySelector("main").appendChild(iframe);
+tabPanel.appendChild(iframe);

@@ -1,11 +1,14 @@
-main {
-  position: relative;
+artdeco-tabpanel.course-body__info-panel--notes {
+  padding: 0 !important;
+}
+.learning_course_notes {
+  height: 100%;
+  overflow: hidden;
+}
+.course-notes {
+  display: none;
 }
 iframe.hackday {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 30%;
+  width: 100%;
   height: 100%;
-  z-index: 10;
 }

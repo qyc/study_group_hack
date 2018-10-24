@@ -12,6 +12,7 @@ body {
   align-items: center;
   padding: 15px;
   border-bottom: 1px solid rgba(156, 172, 172, 0.2);
+  min-height: 100px;
 }
 .header > div {
   width: 100%;

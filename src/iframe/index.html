@@ -14,12 +14,12 @@
       <div class="members">
         <div class="member" v-for="member in members">
           <img class="member__image avatar" :src="member.image"></img>
-          <span class="label" :class="{ 'label--ready': amReady }">{{ member.ready ? 'ready' : ' ' }}</span>
+          <span class="label" :class="{ 'label--ready': member.ready }">{{ member.ready ? 'ready' : ' ' }}</span>
         </div>
       </div>
       <div class="actions">
         <button v-if="!amReady" @click="ready" class="artdeco-button artdeco-button--2 artdeco-button--secondary">I'm Ready!</button>
-        <button v-if="isEveryoneReady" @click="start" class="artdeco-button artdeco-button--2 artdeco-button--primary">Start</button>
+        <button v-if="amReady" v-bind="{ disabled: !isEveryoneReady }" @click="start" class="artdeco-button artdeco-button--2 artdeco-button--primary">Start</button>
       </div>
     </div>
     <div v-if="state === 'IN_SESSION'">
