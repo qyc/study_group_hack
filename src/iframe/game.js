@@ -33,7 +33,7 @@ getRoom().then(({ clientId, room, publish }) => {
         }
         data.progress = 0;
         interval = setInterval(() => {
-          data.progress += 0.5;
+          data.progress += 2;
           if (data.progress > 100) {
             clearInterval(interval);
             notify("complete");
