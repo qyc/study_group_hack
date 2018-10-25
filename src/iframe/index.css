@@ -153,3 +153,6 @@ body {
 .message .avatar {
   margin-right: 8px;
 }
+.quiz {
+  width: 100%;
+}

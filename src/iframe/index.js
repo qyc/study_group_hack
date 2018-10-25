@@ -12,7 +12,7 @@ getRoom().then(({ clientId, room, publish }) => {
     return;
   }
 
-  window.onmessage = function(e) {
+  window.onmessage = function (e) {
     switch (e.data.type) {
       case "duration":
         const [minutes, seconds] = e.data.duration.split(":").map(o => parseInt(o));
@@ -70,6 +70,19 @@ getRoom().then(({ clientId, room, publish }) => {
         insertSystemMessageToDOM({
           content: `Let's discuss ${data.reaction.emoji} @ ${minutes}:${seconds < 10 ? ('0' + seconds) : seconds}`
         });
+        break;
+
+      case 'quiz':
+        insertSystemMessageToDOM({
+          content: "🎉 Quiz Results 🎉"
+        });
+        const img = document.createElement("img");
+        img.src = "Slide1.jpeg";
+        img.classList.add("quiz");
+        const messagesEl = document.querySelector('.messages');
+        messagesEl.appendChild(img);
+        // Scroll to bottom
+        messagesEl.scrollTop = messagesEl.scrollHeight - messagesEl.clientHeight;
         break;
     }
   });
@@ -134,9 +147,13 @@ getRoom().then(({ clientId, room, publish }) => {
       image,
     };
 
-    publish(data);
-
-    insertMessageToDOM(data, true);
+    if (value === "quiz") {
+      publish({ type: "quiz" });
+    }
+    else {
+      publish(data);
+      insertMessageToDOM(data, true);
+    }
     return false;
   });
 });
