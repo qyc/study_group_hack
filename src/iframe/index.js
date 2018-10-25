@@ -77,7 +77,7 @@ getRoom().then(({ clientId, room, publish }) => {
           content: "🎉 Quiz Results 🎉"
         });
         const img = document.createElement("img");
-        img.src = "Slide1.jpeg";
+        img.src = "quiz.png";
         img.classList.add("quiz");
         const messagesEl = document.querySelector('.messages');
         messagesEl.appendChild(img);
